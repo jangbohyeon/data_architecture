@@ -1,0 +1,5 @@
+python>=3.6.9
+flask>=2.0.1
+werkwzeug>=2.0.1
+MongoDB >= 4.4.6
+sphinx >= 4.0.2
