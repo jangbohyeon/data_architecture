@@ -9,7 +9,7 @@ def test_logger():
     """
     from src import mylogger
     try:
-        m = mylogger.get_logger('test', '/home/data_architecture/log')
+        m = mylogger.get_logger('test', '~/data_architecture/log')
         m.debug('hi, debug')
     except Exception as e:
         print(e)
@@ -24,7 +24,7 @@ def test_config():
     """
     from src import myconfig
     try:
-        m = myconfig.get_config('/home/data_architecture/share/test.config')
+        m = myconfig.get_config('~/data_architecture/share/test.config')
         print('key1=', m['general'].get('key1'))
         print('key2=', m['general'].get('key2'))
         print('key3=', m['logger'].get('key3'))
