@@ -15,4 +15,3 @@ def get_config(filepath):
         print('get_config(): Failed to parser.read()')
         return False
     return parser
-
