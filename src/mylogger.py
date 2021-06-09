@@ -3,7 +3,6 @@ from logging.handlers import TimedRotatingFileHandler as handler
 
 def get_logger(name, log_directory='', log_to_stream=True):
     """Create a new logger and return it.
-
     :param name: name of logger.
     :type name: str
     :param log_directory: a path to make log files. If it is empty, then it does not write log files.
@@ -35,4 +34,3 @@ def get_logger(name, log_directory='', log_to_stream=True):
         logger.addHandler(stream_handler)
 
     return logger
-
