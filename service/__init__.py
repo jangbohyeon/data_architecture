@@ -4,7 +4,7 @@ import os
 from src import user, mylogger, myconfig
 import pdb
 import datetime
-import flask_restx import Api, Resource
+from flask_restx import Api, Resource
 
 app = Flask(__name__)
 app = Api(app)
