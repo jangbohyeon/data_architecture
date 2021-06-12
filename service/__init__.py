@@ -19,12 +19,6 @@ loggers = dict()
 loggers['login'] = mylogger.get_logger('login', log_directory)
 loggers['Users_tonic'] = mylogger.get_logger('Users_tonic', log_directory)
 loggers['Tonic_info'] = mylogger.get_logger('Tonic_info', log_directory)
-
-@api.route('/hello')  # 데코레이터 이용, '/hello' 경로에 클래스 등록
-class HelloWorld(Resource):
-    def get(self):  # GET 요청시 리턴 값에 해당 하는 dict를 JSON 형태로 반환
-        return {"hello": "world!"}
-    
  
 @app.route('/login', methods=["POST"])
 def login():
@@ -54,6 +48,10 @@ def login():
     loggers['login'].info('{}: login result = {}'.format(user_id, ret))
     return ret
 
+@app.route('/Tonic_info', methods=["POST"])
+def Users_tonic():
+    return render_template("home.html")
+    
 @app.route('/Users_tonic', methods=["POST"])
 def Users_tonic():
     """Users_tonic API function.
