@@ -4,8 +4,11 @@ import os
 from src import user, mylogger, myconfig
 import pdb
 import datetime
+import flask_restx import Api, Resource
 
 app = Flask(__name__)
+app = Api(app)
+
 
 # create a logger.
 project_root_path = os.getenv("DATA_ARCHITECTURE")
@@ -14,8 +17,15 @@ cfg = myconfig.get_config('{}/share/project.config'.format(
 log_directory = cfg['logger'].get('log_directory')
 loggers = dict()
 loggers['login'] = mylogger.get_logger('login', log_directory)
-loggers['main'] = mylogger.get_logger('main', log_directory)
+loggers['Users_tonic'] = mylogger.get_logger('Users_tonic', log_directory)
+loggers['Tonic_info'] = mylogger.get_logger('Tonic_info', log_directory)
 
+@api.route('/hello')  # 데코레이터 이용, '/hello' 경로에 클래스 등록
+class HelloWorld(Resource):
+    def get(self):  # GET 요청시 리턴 값에 해당 하는 dict를 JSON 형태로 반환
+        return {"hello": "world!"}
+    
+ 
 @app.route('/login', methods=["POST"])
 def login():
     """login API function.
@@ -44,17 +54,16 @@ def login():
     loggers['login'].info('{}: login result = {}'.format(user_id, ret))
     return ret
 
-
-@app.route('/main', methods=["POST"])
-def main():
-    """main (schedule) API function.
+@app.route('/Users_tonic', methods=["POST"])
+def Users_tonic():
+    """Users_tonic API function.
     Specification can be found in `API.md` file.
     :return: JSON serialized string containing the result with session_id
     :rtype: str
     """
     session_id = request.json.get('session_id')
     request_type = request.json.get('request_type')
-    loggers['main'].info('{}: main(schedule) with request type = {}'.format(
+    loggers['Users_tonic'].info('{}: Users_tonic with request type = {}'.format(
         session_id, request_type))
 
     ret = {"result": None,
@@ -66,13 +75,13 @@ def main():
                 what_time_is_it.timestamp())
         if not doc_user:
             msg = '{}: Invalid session'.format(session_id)
-            loggers['main'].error(msg)
+            loggers['Users_tonic'].error(msg)
             ret['result'] = False
             ret['msg'] = msg
         else:
-            main = request.json.get('main')
+            main = request.json.get('Users_tonic')
             how_many_added = user.add_main(doc_user,
-                    main, loggers['main'])
+                    main, loggers['Users_tonic'])
             new_session = user.generate_session(doc_user)
             if how_many_added:
                 msg = '{}: {} main items added'.format(
@@ -89,11 +98,12 @@ def main():
     else:
         msg = '{}: Invalid request type = {}'.format(
                 session_id, request_type)
-        loggers['main'].error(msg)
+        loggers['Users_tonic'].error(msg)
         ret['result'] = False
         ret['msg'] = msg
 
-    loggers['main'].info('{}: main result = {}'.format(
+    loggers['Users_tonic'].info('{}: main result = {}'.format(
         session_id, ret))
     return ret
-
+if __name__ == '__main__':
+    app.run(debug=True,host='0.0.0.0',port='1234')
