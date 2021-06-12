@@ -7,7 +7,6 @@ import datetime
 from flask_restx import Api, Resource
 
 app = Flask(__name__)
-app = Api(app)
 
 
 # create a logger.
@@ -20,6 +19,10 @@ loggers['login'] = mylogger.get_logger('login', log_directory)
 loggers['Users_tonic'] = mylogger.get_logger('Users_tonic', log_directory)
 loggers['Tonic_info'] = mylogger.get_logger('Tonic_info', log_directory)
  
+@app.route('/')
+def index():
+    return 'Welcome index page'
+
 @app.route('/login', methods=["POST"])
 def login():
     """login API function.
@@ -77,8 +80,8 @@ def Users_tonic():
             ret['result'] = False
             ret['msg'] = msg
         else:
-            main = request.json.get('Users_tonic')
-            how_many_added = user.add_main(doc_user,
+            Users_tonic = request.json.get('Users_tonic')
+            how_many_added = user.add_Users_tonic(doc_user,
                     main, loggers['Users_tonic'])
             new_session = user.generate_session(doc_user)
             if how_many_added:
