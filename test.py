@@ -46,7 +46,7 @@ def test_login(logger):
     :rtype: bool
     """
     from src import user
-    session_key = user.login('iam', '1234', logger)
+    session_key = user.login('iam', '1111', logger)
     if not session_key:
         return False
 
